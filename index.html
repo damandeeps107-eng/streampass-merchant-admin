@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StreamPass Merchant Admin Console & Voucher Liquidation Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./src/styles/admin.css" />
+  <style>
+    body {
+      background: #060911;
+      color: #f8fafc;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+    }
+    .standalone-admin-container {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="standalone-admin-container">
+    <!-- Console Top Bar -->
+    <div class="admin-topbar">
+      <div class="admin-brand-wrap">
+        <div class="admin-logo-title">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <span>StreamPass Admin Portal</span>
+        </div>
+        <span class="admin-sync-badge">
+          <span class="admin-sync-dot"></span>
+          Live Client Sync Active
+        </span>
+      </div>
+
+      <div class="admin-header-actions">
+        <a href="/" class="admin-btn" style="background: rgba(255,255,255,0.08); color: #ffffff; text-decoration: none;">
+          🌐 Main Storefront
+        </a>
+        <button type="button" class="admin-btn admin-btn-export" id="admin-export-csv-btn">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Export Orders CSV
+        </button>
+      </div>
+    </div>
+
+    <!-- Console Main Content Body -->
+    <div class="admin-body" style="flex: 1;">
+      <!-- Analytics Metrics Cards -->
+      <div class="admin-stats-grid">
+        <div class="admin-stat-card">
+          <span class="admin-stat-label">Total Client Orders</span>
+          <span class="admin-stat-val" id="stat-total-orders">0</span>
+          <span class="admin-stat-sub">Recorded on StreamPass</span>
+        </div>
+        <div class="admin-stat-card">
+          <span class="admin-stat-label">Total Sales Volume</span>
+          <span class="admin-stat-val" id="stat-total-sales">₹0</span>
+          <span class="admin-stat-sub">Gross Order Value</span>
+        </div>
+        <div class="admin-stat-card">
+          <span class="admin-stat-label">Myntra E-Gift Cards</span>
+          <span class="admin-stat-val" id="stat-myntra-count">0</span>
+          <span class="admin-stat-sub" id="stat-myntra-val">₹0 Face Value</span>
+        </div>
+        <div class="admin-stat-card">
+          <span class="admin-stat-label">Amazon Pay Codes</span>
+          <span class="admin-stat-val" id="stat-amazon-count">0</span>
+          <span class="admin-stat-sub" id="stat-amazon-val">₹0 Claim Value</span>
+        </div>
+        <div class="admin-stat-card">
+          <span class="admin-stat-label">Pending Activation</span>
+          <span class="admin-stat-val" style="color: #fbbf24;" id="stat-pending-count">0</span>
+          <span class="admin-stat-sub">Needs Credentials Dispatch</span>
+        </div>
+      </div>
+
+      <!-- Controls: Filters & Search Bar -->
+      <div class="admin-controls-row">
+        <div class="admin-filter-tabs">
+          <button type="button" class="admin-tab active" data-filter="all">All Orders</button>
+          <button type="button" class="admin-tab" data-filter="pending">⏳ Pending</button>
+          <button type="button" class="admin-tab" data-filter="approved">✅ Approved</button>
+          <button type="button" class="admin-tab" data-filter="rejected">❌ Rejected</button>
+          <button type="button" class="admin-tab" data-filter="myntra">Myntra Cards</button>
+          <button type="button" class="admin-tab" data-filter="amazon">Amazon Vouchers</button>
+        </div>
+
+        <div class="admin-search-box">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" id="admin-search-input" placeholder="Search Client, Phone, Card No, PIN..." />
+        </div>
+      </div>
+
+      <!-- Client Orders & Voucher Liquidation Table -->
+      <div class="admin-table-container">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Order ID &amp; Date</th>
+              <th>Client Contact Details</th>
+              <th>Platform &amp; Subscribed Plan</th>
+              <th>Gift Card / Voucher Details</th>
+              <th>Fulfilment Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="admin-orders-tbody">
+            <!-- Dynamic order rows rendered here -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initAdminPanel } from '/src/js/admin.js';
+    document.addEventListener('DOMContentLoaded', () => {
+      initAdminPanel();
+    });
+  </script>
+</body>
+</html>
