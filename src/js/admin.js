@@ -569,7 +569,7 @@ if (typeof window !== 'undefined') {
     const currentUpi = localStorage.getItem("streamPass_merchant_upi_id") || "pay.streampass@paytm";
     const currentName = localStorage.getItem("streamPass_merchant_name") || "StreamPass Digital Services";
     const currentBinance = localStorage.getItem("streamPass_merchant_binance_id") || "284910384";
-    const currentUsdt = localStorage.getItem("streamPass_merchant_usdt_address") || "T9zX_Binance_USDT_TRC20_Official";
+    const currentUsdt = localStorage.getItem("streamPass_merchant_usdt_address") || "0xbC2916Fa5F8436704985A264B119F960Ad8F11F5";
 
     const settingBinanceInput = document.getElementById("setting-binance-id");
     const settingUsdtInput = document.getElementById("setting-usdt-address");
