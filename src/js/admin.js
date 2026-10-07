@@ -345,12 +345,28 @@ function renderTable() {
   }
 
   tbody.innerHTML = filtered.map(order => {
+    const isUpi = order.paymentDetails?.method?.includes('UPI') || order.paymentDetails?.utr;
     const isMyntra = order.paymentDetails?.method?.includes('Myntra');
     const p = order.paymentDetails || {};
     
     // Voucher HTML
     let voucherHTML = '';
-    if (isMyntra) {
+    if (isUpi) {
+      voucherHTML = `
+        <div class="voucher-details-box" style="border-left: 3px solid #3b82f6;">
+          <span class="v-method-tag" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">⚡ Direct Instant UPI QR</span>
+          <div class="v-field-row" style="margin-top: 6px;">
+            <span class="v-field-label">UTR / Ref No:</span>
+            <span class="v-field-val" style="color: #60a5fa; font-weight: 800; font-size: 0.95rem;">${p.utr || 'N/A'}</span>
+            <button class="copy-mini-btn" data-copy="${p.utr}">Copy UTR</button>
+          </div>
+          <div class="v-field-row">
+            <span class="v-field-label">UPI ID:</span>
+            <span class="v-field-val" style="font-size: 0.74rem; color: #94a3b8;">${p.upiId || 'streampass@upi'}</span>
+          </div>
+        </div>
+      `;
+    } else if (isMyntra) {
       voucherHTML = `
         <div class="voucher-details-box">
           <span class="v-method-tag v-method-myntra">🛍️ Myntra E-Gift Card</span>
