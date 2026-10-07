@@ -41,6 +41,9 @@
       </div>
 
       <div class="admin-header-actions">
+        <button type="button" class="admin-btn" id="admin-settings-btn" style="background: rgba(59, 130, 246, 0.2); border: 1px solid rgba(59, 130, 246, 0.4); color: #60a5fa;">
+          ⚙️ Merchant UPI Settings
+        </button>
         <a href="/" class="admin-btn" style="background: rgba(255,255,255,0.08); color: #ffffff; text-decoration: none;">
           🌐 Main Storefront
         </a>
@@ -126,5 +129,41 @@
       initAdminPanel();
     });
   </script>
+  <!-- MERCHANT UPI SETTINGS MODAL -->
+  <div class="modal-overlay" id="admin-settings-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.75); backdrop-filter: blur(8px); z-index: 9999; align-items: center; justify-content: center;">
+    <div style="background: #0f172a; border: 1.5px solid rgba(59, 130, 246, 0.4); border-radius: 16px; width: 90%; max-width: 480px; padding: 24px; box-shadow: 0 20px 50px rgba(0,0,0,0.8); text-align: left;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 12px;">
+        <h3 style="margin: 0; color: #ffffff; font-size: 1.15rem; font-weight: 800;">⚙️ Merchant Privacy & UPI Settings</h3>
+        <button type="button" id="admin-settings-close" style="background: none; border: none; color: #94a3b8; font-size: 1.4rem; cursor: pointer;">&times;</button>
+      </div>
+
+      <form id="admin-settings-form">
+        <div style="margin-bottom: 16px;">
+          <label style="display: block; font-size: 0.85rem; font-weight: 700; color: #cbd5e1; margin-bottom: 6px;">
+            Collection UPI VPA / Payment ID (Private Business VPA)
+          </label>
+          <input type="text" id="setting-upi-id" class="form-input" style="width: 100%; padding: 10px 14px; background: #1e293b; border: 1px solid #334155; border-radius: 8px; color: #ffffff; font-family: monospace; font-size: 0.95rem; box-sizing: border-box;" placeholder="e.g. pay.streampass@paytm or business VPA" required />
+          <span style="font-size: 0.74rem; color: #94a3b8; margin-top: 4px; display: block;">
+            Customers scan QR to pay to this ID. Personal identity stays 100% hidden & secret.
+          </span>
+        </div>
+
+        <div style="margin-bottom: 20px;">
+          <label style="display: block; font-size: 0.85rem; font-weight: 700; color: #cbd5e1; margin-bottom: 6px;">
+            Public Merchant / Business Name
+          </label>
+          <input type="text" id="setting-merchant-name" class="form-input" style="width: 100%; padding: 10px 14px; background: #1e293b; border: 1px solid #334155; border-radius: 8px; color: #ffffff; font-size: 0.9rem; box-sizing: border-box;" placeholder="e.g. StreamPass Digital Services" required />
+          <span style="font-size: 0.74rem; color: #94a3b8; margin-top: 4px; display: block;">
+            Displayed on customer's PhonePe/GPay app as the receiver business name.
+          </span>
+        </div>
+
+        <div style="display: flex; gap: 10px; justify-content: flex-end;">
+          <button type="button" id="admin-settings-cancel" style="padding: 10px 18px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; color: #ffffff; cursor: pointer; font-weight: 600;">Cancel</button>
+          <button type="submit" style="padding: 10px 20px; background: #2563eb; border: none; border-radius: 8px; color: #ffffff; cursor: pointer; font-weight: 700;">Save & Sync Storefront</button>
+        </div>
+      </form>
+    </div>
+  </div>
 </body>
 </html>

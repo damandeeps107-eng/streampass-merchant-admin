@@ -538,3 +538,39 @@ if (typeof window !== 'undefined') {
     });
   }
 }
+
+  // Merchant Settings Modal logic
+  const settingsBtn = document.getElementById("admin-settings-btn");
+  const settingsModal = document.getElementById("admin-settings-modal");
+  const settingsClose = document.getElementById("admin-settings-close");
+  const settingsCancel = document.getElementById("admin-settings-cancel");
+  const settingsForm = document.getElementById("admin-settings-form");
+  const settingUpiInput = document.getElementById("setting-upi-id");
+  const settingNameInput = document.getElementById("setting-merchant-name");
+
+  function openSettingsModal() {
+    if (!settingsModal) return;
+    const currentUpi = localStorage.getItem("streamPass_merchant_upi_id") || "pay.streampass@paytm";
+    const currentName = localStorage.getItem("streamPass_merchant_name") || "StreamPass Digital Services";
+    if (settingUpiInput) settingUpiInput.value = currentUpi;
+    if (settingNameInput) settingNameInput.value = currentName;
+    settingsModal.style.display = "flex";
+  }
+
+  function closeSettingsModal() {
+    if (settingsModal) settingsModal.style.display = "none";
+  }
+
+  settingsBtn?.addEventListener("click", openSettingsModal);
+  settingsClose?.addEventListener("click", closeSettingsModal);
+  settingsCancel?.addEventListener("click", closeSettingsModal);
+
+  settingsForm?.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const newUpi = settingUpiInput ? settingUpiInput.value.trim() : "";
+    const newName = settingNameInput ? settingNameInput.value.trim() : "";
+    if (newUpi) localStorage.setItem("streamPass_merchant_upi_id", newUpi);
+    if (newName) localStorage.setItem("streamPass_merchant_name", newName);
+    alert("✅ Merchant Privacy & UPI Settings saved successfully! Storefront QR code is updated.");
+    closeSettingsModal();
+  });
