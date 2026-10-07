@@ -345,13 +345,29 @@ function renderTable() {
   }
 
   tbody.innerHTML = filtered.map(order => {
+    const isBinance = order.paymentDetails?.method?.includes('Binance') || order.paymentDetails?.txid;
     const isUpi = order.paymentDetails?.method?.includes('UPI') || order.paymentDetails?.utr;
     const isMyntra = order.paymentDetails?.method?.includes('Myntra');
     const p = order.paymentDetails || {};
     
     // Voucher HTML
     let voucherHTML = '';
-    if (isUpi) {
+    if (isBinance) {
+      voucherHTML = `
+        <div class="voucher-details-box" style="border-left: 3px solid #eab308;">
+          <span class="v-method-tag" style="background: rgba(234, 179, 8, 0.15); color: #facc15; border: 1px solid rgba(234, 179, 8, 0.3);">💎 Binance / USDT Crypto</span>
+          <div class="v-field-row" style="margin-top: 6px;">
+            <span class="v-field-label">TxID / Hash:</span>
+            <span class="v-field-val" style="color: #facc15; font-weight: 800; font-size: 0.85rem; word-break: break-all;">${p.txid || 'N/A'}</span>
+            <button class="copy-mini-btn" data-copy="${p.txid}">Copy</button>
+          </div>
+          <div class="v-field-row">
+            <span class="v-field-label">USDT Value:</span>
+            <span class="v-field-val" style="color: #4ade80; font-weight: 800;">${p.usdtAmount || '$0.00 USDT'}</span>
+          </div>
+        </div>
+      `;
+    } else if (isUpi) {
       voucherHTML = `
         <div class="voucher-details-box" style="border-left: 3px solid #3b82f6;">
           <span class="v-method-tag" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">⚡ Direct Instant UPI QR</span>
@@ -552,8 +568,16 @@ if (typeof window !== 'undefined') {
     if (!settingsModal) return;
     const currentUpi = localStorage.getItem("streamPass_merchant_upi_id") || "pay.streampass@paytm";
     const currentName = localStorage.getItem("streamPass_merchant_name") || "StreamPass Digital Services";
+    const currentBinance = localStorage.getItem("streamPass_merchant_binance_id") || "284910384";
+    const currentUsdt = localStorage.getItem("streamPass_merchant_usdt_address") || "T9zX_Binance_USDT_TRC20_Official";
+
+    const settingBinanceInput = document.getElementById("setting-binance-id");
+    const settingUsdtInput = document.getElementById("setting-usdt-address");
+
     if (settingUpiInput) settingUpiInput.value = currentUpi;
     if (settingNameInput) settingNameInput.value = currentName;
+    if (settingBinanceInput) settingBinanceInput.value = currentBinance;
+    if (settingUsdtInput) settingUsdtInput.value = currentUsdt;
     settingsModal.style.display = "flex";
   }
 
@@ -569,8 +593,15 @@ if (typeof window !== 'undefined') {
     e.preventDefault();
     const newUpi = settingUpiInput ? settingUpiInput.value.trim() : "";
     const newName = settingNameInput ? settingNameInput.value.trim() : "";
+    const settingBinanceInput = document.getElementById("setting-binance-id");
+    const settingUsdtInput = document.getElementById("setting-usdt-address");
+    const newBinance = settingBinanceInput ? settingBinanceInput.value.trim() : "";
+    const newUsdt = settingUsdtInput ? settingUsdtInput.value.trim() : "";
+
     if (newUpi) localStorage.setItem("streamPass_merchant_upi_id", newUpi);
     if (newName) localStorage.setItem("streamPass_merchant_name", newName);
+    if (newBinance) localStorage.setItem("streamPass_merchant_binance_id", newBinance);
+    if (newUsdt) localStorage.setItem("streamPass_merchant_usdt_address", newUsdt);
     alert("✅ Merchant Privacy & UPI Settings saved successfully! Storefront QR code is updated.");
     closeSettingsModal();
   });
